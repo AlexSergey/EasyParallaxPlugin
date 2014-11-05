@@ -1,171 +1,12 @@
-@font-face {
-    font-family: 'super_mario_bros';
-    src: url('../fonts/super_mario_bros-webfont.eot');
-    src: url('../fonts/super_mario_bros-webfont.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/super_mario_bros-webfont.woff') format('woff'),
-    url('../fonts/super_mario_bros-webfont.ttf') format('truetype'),
-    url('../fonts/super_mario_bros-webfont.svg#super_mario_bros.regular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
-@font-face {
-    font-family: 'super_plumber_brothersregular';
-    src: url('../fonts/super_plumber_brothers-webfont.eot');
-    src: url('../fonts/super_plumber_brothers-webfont.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/super_plumber_brothers-webfont.woff') format('woff'),
-        url('../fonts/super_plumber_brothers-webfont.ttf') format('truetype'),
-        url('../fonts/super_plumber_brothers-webfont.svg#super_plumber_brothersregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'FunkyStoneageRegular';
-    src: url('../fonts/funkystoneage.eot');
-    src: url('../fonts/funkystoneage.eot') format('embedded-opentype'),
-        url('../fonts/funkystoneage.woff') format('woff'),
-        url('../fonts/funkystoneage.ttf') format('truetype'),
-        url('../fonts/funkystoneage.svg#FunkyStoneageRegular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'FunnyPagesRegular';
-    src: url('../fonts/funny2.eot');
-    src: url('../fonts/funny2.eot') format('embedded-opentype'),
-        url('../fonts/funny2.woff') format('woff'),
-        url('../fonts/funny2.ttf') format('truetype'),
-        url('../fonts/funny2.svg#FunnyPagesRegular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-
-/* =============================================================================
-	BODY
-	========================================================================== */
-html, body {
-    height: 100%;
-}
-body {
-    margin:0;
-    color:#000;
-    font:12px/1 Arial, Helvetica, sans-serif;
-    background:#000;
-    -webkit-text-size-adjust:100%;
-    -ms-text-size-adjust:none;
-}
-/* =============================================================================
-	HTML5
-	========================================================================== */
-article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {display:block;}
-audio, canvas, video {display:inline-block; display:inline; *zoom:1;}
-audio:not([controls]) {display:none;}
-[hidden] {display:none;}
-figure {margin:0;}
-iframe {border:0;}
-/* =============================================================================
-	IMAGES
-	========================================================================== */
-img {border:0; -ms-interpolation-mode:bicubic; vertical-align:top;}
-/* =============================================================================
-	LINKS
-	========================================================================== */
-a {color:#5f5f5f; text-decoration:none; outline:none;}
-a:hover {color:#000; text-decoration:underline;}
-a:focus {outline:none;}
-a:hover, a:active {outline:0;}
-a:active {background-color:transparent;}
-/* =============================================================================
-	SELECT TEXT
-	========================================================================== */
-::-moz-selection {background:#00f; color:#fff; text-shadow:none;}
-::selection {background:#00f; color:#fff; text-shadow:none;}
-/* =============================================================================
-	FORMS
-	========================================================================== */
-form, fieldset {margin:0; padding:0; border-style:none;}
-label {cursor:pointer;}
-button, input[type="button"], input[type="reset"], input[type="submit"] {cursor:pointer; -webkit-appearance: none; *overflow:visible;}
-input {outline:none;}
-button[disabled], input[disabled] {cursor:default;}
-button::-moz-focus-inner, input::-moz-focus-inner {border:0; padding:0;}
-button {padding:0}
-input[type="checkbox"], input[type="radio"] {width:15px; height:16px; padding:0; margin:0;}
-input, textarea, select {font:100% Arial, Helvetica, sans-serif; vertical-align:middle; color:#000;}
-textarea {resize:vertical; margin:0; padding:0; overflow:auto; vertical-align:top; outline:none;}
-input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration {-webkit-appearance:none; box-sizing:content-box; -moz-box-sizing:content-box; -webkit-box-sizing:content-box;}
-input:-moz-placeholder {color:#000;}
-input::-moz-placeholder {color:#000;opacity:1;}
-input::-webkit-input-placeholder {color:#000;}
-input:-ms-input-placeholder {color:#000;}
-input::placeholder {color:#000;}
-input:focus:-moz-placeholder {color:transparent;}
-input:focus::-moz-placeholder {color:transparent;}
-input:focus::-webkit-input-placeholder {color:transparent;}
-input:focus:-ms-input-placeholder {color:transparent;}
-input:focus::placeholder {color:transparent;}
-input::-ms-clear {display:none;}
-/*Iphone Border Radius Fix*/
-input {-webkit-border-radius:0;}
-textarea {-webkit-border-radius:0;}
-/* =============================================================================
-	TABLES
-	========================================================================== */
-table, caption, tbody, tfoot, thead, tr, th, td {border-collapse:collapse; border-spacing:0;}
-td {text-align:left; vertical-align:top;}
-th {text-align:center; vertical-align:middle;}
-/* =============================================================================
-	QUOTES
-	========================================================================== */
-q {quotes:none;}
-q:before {content:''}
-q:after {content:''}
-/* =============================================================================
-	LISTS
-	========================================================================== */
-ul, ol {list-style:none; margin:0 0 10px; padding:0;}
-dl {margin:0 0 10px;}
-nav ul, nav ol {margin:0;}
-ul li {list-style:none; list-style:none outside;}
-/* =============================================================================
-	SEMANTIC TAG
-	========================================================================== */
-h1 {font-size:30px; line-height:1.25; margin:0 0 20px;}
-h2 {font-size:28px; line-height:1.25; margin:0 0 18px;}
-h3 {font-size:26px; line-height:1.2; margin:0 0 16px;}
-h4 {font-size:24px; line-height:1.2; margin:0 0 14px;}
-h5 {font-size:22px; line-height:1.1; margin:0 0 12px;}
-h6 {font-size:20px; line-height:1.1; margin:0 0 10px;}
-blockquote {margin:0 0 10px;}
-b, strong {font-weight:bold;}
-sub, sup, small {font-size:75%;}
-sub, sup {line-height:0; position:relative; vertical-align:baseline;}
-sub {bottom:-0.25em;}
-sup {top:-0.5em;}
-svg:not(:root) {overflow:hidden;}
-p {margin:0 0 10px;}
-hr {display:block; height:1px; border:0; border-top:1px solid #ccc; margin:0; padding:0;}
-*+html hr {margin:-7px 0;}
-mark {background:#ff0;}
-ins {text-decoration:none; background:#ff9;}
-del {text-decoration:line-through;}
-pre {white-space:pre; white-space:pre-wrap; word-wrap:break-word} /* Allow line wrapping of 'pre' */
-pre, code, kbd, samp {margin:0 0 10px; font:10px/13px Lucida Console, Monaco, monospace}
-/* =============================================================================
-	MOBILE VERSION
-	========================================================================== */
-/*img, embed, object, video {max-width:100%;}*/
-/*input[type="image"] {padding:0;border:none;}*/
-/* =============================================================================
-	MAIN
-	========================================================================== */
 #site {
     width: 100%;
     height: 100%;
     position: fixed;
+    overflow: hidden;
+    overflow-y: auto;
 }
-#slider {
+
+#drag-wrapper {
     position: fixed;
     top: 25px;
     left: 1%;
@@ -185,22 +26,21 @@ pre, code, kbd, samp {margin:0 0 10px; font:10px/13px Lucida Console, Monaco, mo
     transition-property: width, background-color;
     -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
     box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
-    display: none;
 }
-#slider:before,
-#slider:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-}
-#slider:before {
+#drag-wrapper:before,
+#drag-wrapper:after {
+     content: '';
+     position: absolute;
+     top: 0;
+     left: 0;
+     right: 0;
+ }
+#drag-wrapper:before {
     bottom: 0;
     background: url("../images/stripes.png") 0 0 repeat;
     border-radius: 4px 4px 0 0;
 }
-#slider:after {
+#drag-wrapper:after {
     z-index: 2;
     bottom: 45%;
     border-radius: 4px;
@@ -209,25 +49,43 @@ pre, code, kbd, samp {margin:0 0 10px; font:10px/13px Lucida Console, Monaco, mo
     background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
     background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
 }
-.ui-slider .ui-slider-handle {
+.drag-border {
+    position:relative;
+}
+
+#drag-container {
+    width: 100%;
+}
+
+.drag-elem {
     position: absolute;
     z-index: 2;
     width: 50px;
     height: 50px;
+    margin: -19px 0 0 0;
     background: url(../images/bg-star.png) no-repeat;
 }
-.ui-slider-horizontal .ui-slider-handle {
-    top: -20px;
-    margin-left: -25px;
+.drag-bar {
+    height:100%;
+    background:#f0f;
+    width:0;
+    position:absolute;
+    z-index:5;
+    border-radius:5px;
 }
+
 .slides {
-    width: 100%;
+    width: calc(25% - (3000px / 4));
     height: 100%;
     position: relative;
     z-index: 2;
+    float: left;
 }
 #wrapper {
     overflow: hidden;
+    width: calc(400% + 3100px);
+    height: 100%;
+    position: relative;
 }
 .skyes {
     background:url(../images/bg-skyes.jpg) repeat-x;
@@ -246,7 +104,6 @@ pre, code, kbd, samp {margin:0 0 10px; font:10px/13px Lucida Console, Monaco, mo
     width: 80px;
     margin: -175px 0 0 ;
     z-index: 17;
-    display: none;
 }
 #nav li {
     width: 80px;
@@ -342,29 +199,17 @@ pre, code, kbd, samp {margin:0 0 10px; font:10px/13px Lucida Console, Monaco, mo
     bottom: 25px;
     left: -125px;
 }
-.play .mario {
+.mario {
     background: url(../images/bg-mario.png) no-repeat 0 0;
 }
-.play .mario.small {
+.mario.small {
     background: url(../images/bg-mario-small.png) no-repeat 0 0;
 }
-.play .mario.jump {
+.mario.jump {
     background: url(../images/bg-mario-jump.png) no-repeat 0 0;
 }
-.play .mario.small.jump {
+.mario.small.jump {
     background: url(../images/bg-mario-small-jump.png) no-repeat 0 0 !important;
-}
-.reverse .mario.jump {
-    background: url(../images/bg-mario-jump-reverse.png) no-repeat 0 0 !important;
-}
-.reverse .mario.small.jump {
-    background: url(../images/bg-mario-small-jump-reverse.png) no-repeat 0 0 !important;
-}
-.reverse .mario {
-    background: url(../images/bg-mario-reverse.png) no-repeat 0 0;
-}
-.reverse .mario.small {
-    background: url(../images/bg-mario-small-reverse.png) no-repeat 0 0;
 }
 
 
