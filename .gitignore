@@ -1,0 +1,15 @@
+.idea
+node_modules
+.DS_STORE
+static
+.module-cache
+*.log
+*.map
+config.js
+*.orig
+.DS_Store
+Thumbs.db
+dist
+logs
+reports
+documentation
