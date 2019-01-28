@@ -1,111 +1,173 @@
-var utils = require('./core/utils');
+import utils from './core/utils';
+import Draggable from 'gsap/Draggable';
+import TimelineMax from 'gsap/TimelineMax';
+import TweenLite from 'gsap/TweenLite';
+import ScrollToPlugin from 'gsap/ScrollToPlugin';
 
-var EasyParallax = (function() {
-    //body - document.body
-    var body;
-    //mainClass -
-    var mainClass;
-    var customScroll;
-    var main;
-    var startScroll = false;
-    var scrolling;
-    var ctmScroll;
-    var customScrollContainer;
-    var customScrollProgress;
-    var customScrollBar;
-    var pagingClass;
-    var onClick = false;
-    var keyboardActive = false;
-    var animationOnScroll;
+class EasyParallax {
+    constructor(options) {
+        TimelineMax.ScrollToPlugin = ScrollToPlugin;
+        this._body = document.body;
+        this.options = Object.assign({
+            mainContainer: '#wrap',
+            customScroll: false,
+            customScrollContainer: '.ctm-scroll-cont',
+            customScrollProgress: '.ctm-scroll-el',
+            customScrollBar: '.ctm-scroll-bar',
+            pagingClass: '.paging',
+            animation: function() {}
+        }, options);
 
+        this._animationOnScroll = true;
 
-
-
-    var ctmScrollProgress;
-    var ctmScrollBar;
-    var dragLimit;
-    var paging;
-
-    var duration;
-
-    var animation;
-
-    /**
-    *
-    * */
-    var buildCustomScroll = function() {
-        var _this = this;
-        Draggable.create(customScrollProgress, {
-            type: 'x',
-            bounds: ctmScroll,
-            onDrag:function() {
-                var tnProgress  = (Math.round( (this.x / dragLimit) * 1000)) /1000,
-                    scrollCount = (duration * main.clientHeight) * tnProgress;
-
-                animationOnScroll = false;
-
-                _this.timeline.progress(tnProgress);
-
-                TweenLite.set(ctmScrollBar, {
-                    width: this.x + 10
-                });
-
-                TweenLite.set(window, {
-                    scrollTo:{
-                        y:scrollCount
-                    }
-                });
-            },
-            onPress:function() {
-                _this.timeline.pause();
-            },
-            onDragEnd: function() {
-                animationOnScroll = true;
-            }
+        this.timeline = new TimelineMax({
+            paused : true,
+            onUpdate: this._animationUpdate.bind(this)
         });
+
+        this._findElement.call(this);
+
+        this.options.animation.call(this);
+
+        this._duration = this.timeline.totalDuration();
+
+        this._buildFakeScroll.call(this);
+        this._bindEvents();
+    }
+
+    _bindEvents = () => {
+        utils.on(window, 'beforeunload', this._scrollTopBeforeUnload);
+
+        utils.on(this._paging, 'click', this._paginationBind, this);
+
+        utils.on(window, 'keydown', this._keyDown, this);
+
+        utils.on(window, 'keyup', this._keyUp, this);
+
+        utils.on(window, 'mousedown', this._mousedown);
+
+        utils.on(window, 'mouseup', this._mouseup);
+
+        utils.on(window, 'scroll', this._scrollFromScrollbar, this);
+
+        utils.on(this._body, 'scrollEmulate', this._fakeScrollUpdate);
+
+        utils.on(this._body, 'mousewheel', this._mouseStop, this);
+
+        utils.on(this._main, 'mousewheel', this._mousescroll, this);
     };
+    /**
+     * If mouse has been clicked and you are scrolling
+     * If you are scrolling from scrollbar drag
+     * */
+    _scrollFromScrollbar = () => {
+        if (this._onClick) {
+            if (this._animationOnScroll) {
+                let scrollTop            = utils.scrollTop(),
+                    docHeight            = this._body.clientHeight,
+                    winHeight            = this._main.clientHeight,
+                    scrollPercent        = (scrollTop) / (docHeight - winHeight);
 
-    var buildFakeScroll = function() {
-        utils.css(body, 'height', ((duration * body.clientHeight) + body.clientHeight) + 'px');
-    };
-
-    var findElement = function() {
-        main = utils.query(document, mainClass);
-        if(customScroll) {
-            ctmScroll          = utils.find(main, customScrollContainer)[0];
-            ctmScrollProgress  = utils.find(main, customScrollProgress)[0];
-            ctmScrollBar       = utils.find(main, customScrollBar)[0];
-
-            if (ctmScroll && ctmScrollProgress) {
-                dragLimit          = ctmScroll.clientWidth - ctmScrollProgress.clientWidth;
-                buildCustomScroll.call(this);
+                this.timeline.progress(scrollPercent).pause();
             }
         }
-        paging = utils.find(main, pagingClass)[0];
     };
 
-    var scrollTopBeforeUnload = function() {
+    _mousedown = () => {
+        this._onClick = true;
+    };
+
+    _mouseup = () => {
+        this._onClick = false;
+    };
+
+    _paginationBind = e => {
+        e.preventDefault();
+
+        if (e.target.nodeName.toLowerCase() === 'a') {
+            let el    = e.target,
+                label = el.getAttribute('data-label');
+
+            this.goTo(label);
+        }
+    };
+
+    _keyDown = e => {
+        if (e.keyCode === 40 || e.keyCode === 38) {
+            this._keyboardActive = true;
+            if (this._animationOnScroll) {
+                this.timeline.play();
+            }
+        }
+        if (e.keyCode === 33 || e.keyCode === 34 || e.keyCode === 35 || e.keyCode === 36) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    };
+
+    _keyUp = e => {
+        if (e.keyCode === 40 || e.keyCode === 38) {
+            this._keyboardActive = false;
+            this.timeline.pause();
+        }
+        if (e.keyCode === 33 || e.keyCode === 34 || e.keyCode === 35 || e.keyCode === 36) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    };
+
+    _mousescroll = e => {
+        this._startScroll = true;
+        let delta = e.wheelDelta;
+        e.preventDefault();
+
+        if(delta > 0){
+            if (this._startScroll) {
+                this._startScroll = false;
+                this.timeline.reverse();
+            }
+        } else {
+            if (this._startScroll) {
+                this._startScroll = false;
+                this.timeline.play();
+            }
+        }
+        let tnProgress = this.timeline.progress(),
+            scroll     = ((this._duration * this._main.clientHeight) * tnProgress);
+
+        this._updateNativeScroll(scroll);
+    };
+
+    _mouseStop = () => {
+        clearTimeout(this._scrolling);
+        this._scrolling = setTimeout(() => {
+            this.timeline.pause();
+            this._startScroll = false;
+        }, 50);
+    };
+
+    _scrollTopBeforeUnload = () => {
         window.scrollTo(0,0);
     };
 
-    var animationUpdate = function() {
-        if (!onClick && keyboardActive === false) {
-            utils.trigger(body, 'scrollEmulate');
+    _animationUpdate = () => {
+        if (!this._onClick && this._keyboardActive === false) {
+            utils.trigger(this._body, 'scrollEmulate');
         }
 
-        var xPos = this.timeline.progress() * dragLimit;
+        let xPos = this.timeline.progress() * this._dragLimit;
 
-        if (ctmScrollProgress) {
-            TweenLite.set(ctmScrollProgress, {x:xPos});
+        if (this._ctmScrollProgress) {
+            TweenLite.set(this._ctmScrollProgress, { x: xPos });
         }
-        if (ctmScrollBar) {
-            TweenLite.set(ctmScrollBar, {width:xPos+10});
+        if (this._ctmScrollBar) {
+            TweenLite.set(this._ctmScrollBar, { width: xPos + 10 });
         }
     };
 
-    var fakeScrollUpdate = function() {
-        var tnProgress = this.timeline.progress(),
-            scroll     = ((duration * main.clientHeight) * tnProgress);
+    _fakeScrollUpdate = () => {
+        let tnProgress = this.timeline.progress(),
+            scroll     = ((this._duration * this._main.clientHeight) * tnProgress);
 
         TweenLite.set(window, {
             scrollTo: {
@@ -114,141 +176,71 @@ var EasyParallax = (function() {
         });
     };
 
-    var mousescroll = function(e) {
-        startScroll = true;
-        var delta = e.wheelDelta;
-        if(delta > 0){
-            if (startScroll) {
-                startScroll = false;
-                this.timeline.reverse();
-            }
-        } else {
-            if (startScroll) {
-                startScroll = false;
-                this.timeline.play();
-            }
-        }
+    _buildFakeScroll = () => {
+        utils.css(this._body, 'height', ((this._duration * this._body.clientHeight) + this._body.clientHeight) + 'px');
     };
 
-    var mouseStop = function() {
-        clearTimeout(scrolling);
-        scrolling = setTimeout(function() {
-            this.timeline.pause();
-            startScroll = true;
-        }.bind(this), 50);
-    };
+    _findElement = () => {
+        this._main = utils.query(document, this.options.mainContainer);
 
-    var keyDown = function(e) {
-        if (e.keyCode === 40 || e.keyCode === 38) {
-            keyboardActive = true;
-            if (animationOnScroll) {
-                this.timeline.play();
+        if(this.options.customScroll) {
+            this._ctmScroll          = utils.find(this._main, this.options.customScrollContainer)[0];
+            this._ctmScrollProgress  = utils.find(this._main, this.options.customScrollProgress)[0];
+            this._ctmScrollBar       = utils.find(this._main, this.options.customScrollBar)[0];
+
+            if (this._ctmScroll && this._ctmScrollProgress) {
+                this._dragLimit          = this._ctmScroll.clientWidth - this._ctmScrollProgress.clientWidth;
+                this._buildCustomScroll();
             }
         }
+
+        this._paging = utils.find(this._main, this.options.pagingClass)[0];
     };
 
-    var keyUp = function(e) {
-        if (e.keyCode === 40 || e.keyCode === 38) {
-            keyboardActive = false;
-            this.timeline.pause();
-        }
-    };
+    _buildCustomScroll = () => {
+        var _this = this;
 
-    var paginationBind = function(e) {
-        e.preventDefault();
+        this._draggable = Draggable.create(this._ctmScrollProgress, {
+            type: 'x',
+            bounds: this._ctmScroll,
+            onDrag: function() {
+                let tnProgress  = (Math.round( (this.x / _this._dragLimit) * 1000)) / 1000,
+                    scroll = ((_this._duration * _this._main.clientHeight)) * tnProgress;
 
-        if (e.target.nodeName === 'A') {
-            var el    = e.target,
-                label = el.getAttribute('data-label');
-            this.goTo(label);
-        }
-    };
+                _this._animationOnScroll = false;
 
-    var mousedown = function() {
-        onClick = true;
-    };
+                _this.timeline.progress(tnProgress);
 
-    var mouseup = function() {
-        onClick = false;
-    };
+                TweenLite.set(_this._ctmScrollBar, {
+                    width: this.x + 10
+                });
 
-    /**
-    * If mouse has been clicked and you are scrolling
-    * If you are scrolling from scrollbar drag
-    * */
-    var scrollFromScrollbar = function() {
-        if (onClick) {
-            if (animationOnScroll) {
-                var scrollTop            = utils.scrollTop(),
-                    docHeight            = body.clientHeight,
-                    winHeight            = main.clientHeight,
-                    scrollPercent        = (scrollTop) / (docHeight - winHeight);
-
-                this.timeline.progress(scrollPercent).pause();
+                _this._updateNativeScroll(scroll);
+            },
+            onPress:function() {
+                _this.timeline.pause();
+            },
+            onDragEnd: function() {
+                _this._animationOnScroll = true;
             }
-        }
+        })[0];
     };
 
-    var bindEvents = function() {
-        utils.on(window, 'beforeunload', scrollTopBeforeUnload);
-
-        utils.on(paging, 'click', paginationBind, this);
-
-        utils.on(window, 'keydown', keyDown, this);
-
-        utils.on(window, 'keyup', keyUp, this);
-
-        utils.on(window, 'mousedown', mousedown);
-
-        utils.on(window, 'mouseup', mouseup);
-
-        utils.on(window, 'scroll', scrollFromScrollbar, this);
-
-        utils.on(document.body, 'scrollEmulate', fakeScrollUpdate.bind(this));
-
-        utils.on(document.body, 'mousewheel', mouseStop, this);
-
-        utils.on(main, 'mousewheel', mousescroll, this);
+    goTo = label => {
+        this.timeline.tweenTo(label, {onUpdate: () => {
+            utils.trigger(this._body, 'scrollEmulate');
+        }});
     };
 
-
-    function EasyParallax(options) {
-        body                  = document.body;
-        mainClass             = options.mainContainer         || '#wrap';
-        customScroll          = options.customScroll          || false;
-        customScrollContainer = options.customScrollContainer || '.ctm-scroll-cont';
-        customScrollProgress  = options.customScrollElem      || '.ctm-scroll-el';
-        customScrollBar       = options.customScrollBar       || '.ctm-scroll-bar';
-        pagingClass           = options.pagination            || '.ctm-scroll-bar';
-
-        animation = options.animation || function() {};
-
-        animationOnScroll     = true;
-
-        this.timeline = new TimelineMax({
-            paused : true,
-            onUpdate: animationUpdate.bind(this)
-        });
-
-        findElement.call(this);
-
-        animation.call(this);
-
-        duration = this.timeline.totalDuration();
-
-        buildFakeScroll.call(this);
-        bindEvents.call(this);
+    _updateNativeScroll = value => {
+        setTimeout(() => {
+            TweenLite.set(window, {
+                scrollTo: {
+                    y: value
+                }
+            });
+        }, 50);
     }
+}
 
-    EasyParallax.prototype = {
-        goTo: function(label) {
-            this.timeline.tweenTo(label, {onUpdate: function() {
-                utils.trigger(body, 'scrollEmulate');
-            }.bind(this)});
-        }
-    };
-
-    return EasyParallax;
-}());
-
-global.EasyParallax = EasyParallax;
+export default EasyParallax;

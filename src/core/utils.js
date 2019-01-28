@@ -1,6 +1,5 @@
-module.exports = {
+let utils =  {
     query: function(elem, className) {
-        console.log(elem)
         return elem.querySelector(className);
     },
 
@@ -41,3 +40,5 @@ module.exports = {
         }
     }
 };
+
+export default utils;

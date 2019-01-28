@@ -1,8 +1,0 @@
-{
-  "name": "EasyParallax",
-  "version": "1.0.0",
-  "dependencies": {
-    "greensock": "~1.17.0",
-    "jquery": "~2.1.4"
-  }
-}
