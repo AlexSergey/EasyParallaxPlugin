@@ -1,5 +1,5 @@
 {
-  "name": "easyparallax",
+  "name": "gsap-easyparallax",
   "version": "4.0.0",
   "description": "",
   "main": "dist/main.js",

@@ -7,7 +7,7 @@ This is very easy and powerfull parallax-scroller plugin. It has based on Greens
 ## How to use
 
 ```js
-import EasyParallax from 'EasyParallaxPlugin';
+import EasyParallax from 'gsap-easyparallax';
 
 var easyParallax = new EasyParallax({
     mainContainer         : '#site',
