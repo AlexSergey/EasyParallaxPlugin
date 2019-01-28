@@ -1,6 +1,6 @@
 {
   "name": "gsap-easyparallax",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "This is very easy and powerfull parallax-scroller plugin. It has based on Greensock animation system.",
   "main": "dist/main.js",
   "scripts": {

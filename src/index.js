@@ -95,8 +95,15 @@ class EasyParallax {
     _keyDown = e => {
         if (e.keyCode === 40 || e.keyCode === 38) {
             this._keyboardActive = true;
+        }
+        if (e.keyCode === 40) {
             if (this._animationOnScroll) {
                 this.timeline.play();
+            }
+        }
+        else if (e.keyCode === 38) {
+            if (this._animationOnScroll) {
+                this.timeline.reverse();
             }
         }
         if (e.keyCode === 33 || e.keyCode === 34 || e.keyCode === 35 || e.keyCode === 36) {
