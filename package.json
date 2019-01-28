@@ -1,11 +1,17 @@
 {
   "name": "gsap-easyparallax",
-  "version": "4.0.0",
-  "description": "",
+  "version": "4.0.1",
+  "description": "This is very easy and powerfull parallax-scroller plugin. It has based on Greensock animation system.",
   "main": "dist/main.js",
   "scripts": {
     "build": "NODE_ENV=production node build"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AlexSergey/EasyParallaxPlugin"
+  },
+  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/EasyParallaxPlugin)",
+  "license": "MIT",
   "dependencies": {
     "gsap": "1.20.6"
   },
