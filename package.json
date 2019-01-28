@@ -12,6 +12,14 @@
   },
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/EasyParallaxPlugin)",
   "license": "MIT",
+  "keywords": [
+    "greensock",
+    "gsap",
+    "animation",
+    "parallax",
+    "effects",
+    "ui"
+  ],
   "dependencies": {
     "gsap": "1.20.6"
   },
