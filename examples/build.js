@@ -1,7 +1,7 @@
-let { compile } = require('../node_modules/rocket-starter');
+let { frontendCompiler } = require('../node_modules/rocket-starter');
 let { resolve } = require('path');
 
-compile({
+frontendCompiler({
     url: './',
     src: resolve(__dirname, 'src/example.js'),
     html: [

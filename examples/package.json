@@ -6,7 +6,7 @@
     "build": "NODE_ENV=production node build"
   },
   "dependencies": {
-    "jquery": "3.3.1",
+    "jquery": "3.4.1",
     "gsap": "1.20.6"
   }
 }

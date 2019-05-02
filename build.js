@@ -1,7 +1,3 @@
-let { compile } = require('rocket-starter');
-let { resolve } = require('path');
+let { libraryCompiler } = require('rocket-starter');
 
-compile({
-    html: false,
-    library: 'EasyParallax'
-});
+libraryCompiler('EasyParallax');
