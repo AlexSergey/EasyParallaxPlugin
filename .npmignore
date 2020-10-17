@@ -15,3 +15,6 @@ reports
 documentation
 webpack.customConfig.js
 examples
+src
+coverage
+test-reports

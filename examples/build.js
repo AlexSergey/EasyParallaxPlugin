@@ -1,12 +1,11 @@
-let { frontendCompiler } = require('../node_modules/rocket-starter');
+let { frontendCompiler } = require('@rockpack/compiler');
 let { resolve } = require('path');
 
 frontendCompiler({
-    url: './',
     src: resolve(__dirname, 'src/example.js'),
     html: [
         {
-            template:  resolve(__dirname, 'src/index.html')
+            template:  resolve(__dirname, 'src/index.ejs')
         }
     ],
     copy: [
@@ -14,4 +13,6 @@ frontendCompiler({
         { from: resolve(__dirname, './src/fonts'), to: './fonts' },
         { from: resolve(__dirname, './src/images'), to: './images' }
     ]
+}, finalConfig => {
+  finalConfig.output.publicPath = './';
 });
