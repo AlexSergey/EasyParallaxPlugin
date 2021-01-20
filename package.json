@@ -23,7 +23,7 @@
     "ui"
   ],
   "dependencies": {
-    "gsap": "1.20.6"
+    "gsap": "3.6.0"
   },
   "devDependencies": {
     "@rockpack/compiler": "1.0.0"
