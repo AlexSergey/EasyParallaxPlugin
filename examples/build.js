@@ -13,6 +13,6 @@ frontendCompiler({
         { from: resolve(__dirname, './src/fonts'), to: './fonts' },
         { from: resolve(__dirname, './src/images'), to: './images' }
     ]
-}, finalConfig => {
-  finalConfig.output.publicPath = './';
+}, (finalConfig, p, m, mode) => {
+  finalConfig.output.publicPath = mode === 'development' ? '/' : './';
 });
