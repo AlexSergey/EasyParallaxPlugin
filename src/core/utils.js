@@ -13,14 +13,15 @@ let utils =  {
     },
 
     trigger: function(elem, eventName) {
-        var event = document.createEvent('Event');
-        event.initEvent(eventName, true, true);
+        var event = new Event(eventName, {bubbles: true, cancelable: false});
         elem.dispatchEvent(event);
     },
 
     scrollTop: function() {
-        if(typeof pageYOffset!= 'undefined'){
-            return pageYOffset;
+        const yOffset = window.scrollY || window.pageYOffSet;
+
+        if(typeof yOffset !== 'undefined'){
+            return yOffset;
         }
         else{
             var body     = document.body,

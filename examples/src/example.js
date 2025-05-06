@@ -1,7 +1,12 @@
 import $ from 'jquery';
 import EasyParallax from '../../src';
-import TweenMax from 'gsap';
-import { Linear, SteppedEase, Back, SlowMo } from 'gsap/EasePack';
+import {gsap, Linear, SteppedEase} from 'gsap';
+import MotionPathPlugin from 'gsap/MotionPathPlugin';
+
+gsap.config({
+    nullTargetWarn: false,
+});
+gsap.registerPlugin(MotionPathPlugin);
 
 var easyParallax = new EasyParallax({
     mainContainer         : '#site',
@@ -78,34 +83,36 @@ var easyParallax = new EasyParallax({
                 {x:3050, y: -40},
                 {x:3200, y: -8}
             ],
-            marioPath = TweenMax.to(mario, 2,
+            marioPath = gsap.to(mario,
                 {
-                    bezier: path,
+                    motionPath: {
+                        path,
+                    },
                     paused: true,
-                    ease  : Linear.easeNone
+                    ease: Linear.easeNone
                 }
             );
         /*Path END*/
 
         /*Animation clouds*/
-        TweenMax.to(cloud_1, 50,{css:{backgroundPosition: '-3000px 0'}, repeatDelay:0, useFrames:false, repeat:-1,ease:Linear.easeNone});
-        TweenMax.fromTo(cloud_2, getRandomInt(25, 50),{css:{left: getRandomInt(0, $('#wrapper').width()), top: getRandomInt(0, 300)}, repeatDelay:0, useFrames:false, repeat:-1,ease:Linear.easeNone},{css:{left: 0-cloud_2.width(), top: getRandomInt(0, 300)}, repeatDelay:0, useFrames:false, repeat:-1,ease:Linear.easeNone});
-        TweenMax.fromTo(cloud_3, getRandomInt(25, 50),{css:{left: getRandomInt(0, $('#wrapper').width()), top: getRandomInt(0, 300)}, repeatDelay:0, useFrames:false, repeat:-1,ease:Linear.easeNone},{css:{left: 0-cloud_2.width(), top: getRandomInt(0, 300)}, repeatDelay:0, useFrames:false, repeat:-1,ease:Linear.easeNone});
-        TweenMax.fromTo(cloud_4, getRandomInt(25, 50),{css:{left: getRandomInt(0, $('#wrapper').width()), top: getRandomInt(0, 300)}, repeatDelay:0, useFrames:false, repeat:-1,ease:Linear.easeNone},{css:{left: 0-cloud_2.width(), top: getRandomInt(0, 300)}, repeatDelay:0, useFrames:false, repeat:-1,ease:Linear.easeNone});
-        TweenMax.fromTo(cloud_5, getRandomInt(25, 50),{css:{left: getRandomInt(0, $('#wrapper').width()), top: getRandomInt(0, 300)}, repeatDelay:0, useFrames:false, repeat:-1,ease:Linear.easeNone},{css:{left: 0-cloud_2.width(), top: getRandomInt(0, 300)}, repeatDelay:0, useFrames:false, repeat:-1,ease:Linear.easeNone});
+        gsap.to(cloud_1, 50,{css:{backgroundPosition: '-3000px 0'}, repeatDelay:0, repeat:-1,ease:Linear.easeNone});
+        gsap.fromTo(cloud_2, getRandomInt(25, 50),{css:{left: getRandomInt(0, $('#wrapper').width()), top: getRandomInt(0, 300)}, repeatDelay:0, repeat:-1,ease:Linear.easeNone},{css:{left: 0-cloud_2.width(), top: getRandomInt(0, 300)}, repeatDelay:0, repeat:-1,ease:Linear.easeNone});
+        gsap.fromTo(cloud_3, getRandomInt(25, 50),{css:{left: getRandomInt(0, $('#wrapper').width()), top: getRandomInt(0, 300)}, repeatDelay:0, repeat:-1,ease:Linear.easeNone},{css:{left: 0-cloud_2.width(), top: getRandomInt(0, 300)}, repeatDelay:0, repeat:-1,ease:Linear.easeNone});
+        gsap.fromTo(cloud_4, getRandomInt(25, 50),{css:{left: getRandomInt(0, $('#wrapper').width()), top: getRandomInt(0, 300)}, repeatDelay:0, repeat:-1,ease:Linear.easeNone},{css:{left: 0-cloud_2.width(), top: getRandomInt(0, 300)}, repeatDelay:0, repeat:-1,ease:Linear.easeNone});
+        gsap.fromTo(cloud_5, getRandomInt(25, 50),{css:{left: getRandomInt(0, $('#wrapper').width()), top: getRandomInt(0, 300)}, repeatDelay:0, repeat:-1,ease:Linear.easeNone},{css:{left: 0-cloud_2.width(), top: getRandomInt(0, 300)}, repeatDelay:0, repeat:-1,ease:Linear.easeNone});
         /*Animation clouds ENDS*/
 
         /*Animation sprites*/
-        var steppedEase = new SteppedEase(2-1);
+        var steppedEase = SteppedEase.config(2-1);
 
         for (var i = 0;i < 3;i++) {
-            TweenMax.fromTo(mario, 0.3, { backgroundPosition:'0 0'}, { backgroundPosition: '-'+(189*i)+'px 0', ease:steppedEase, repeat:-1} );
+            gsap.fromTo(mario, 0.3, { backgroundPosition:'0 0'}, { backgroundPosition: '-'+(189*i)+'px 0', ease:steppedEase, repeat:-1} );
         }
         for (var i = 0;i < 3;i++) {
-            TweenMax.fromTo(donkey,.7, { backgroundPosition:'0 0'}, { backgroundPosition: '-'+(256*i)+'px 0', ease:steppedEase, repeat:-1} );
+            gsap.fromTo(donkey,.7, { backgroundPosition:'0 0'}, { backgroundPosition: '-'+(256*i)+'px 0', ease:steppedEase, repeat:-1} );
         }
         for (var i = 0;i < 3;i++) {
-            TweenMax.fromTo(explo_donkey,.7, { backgroundPosition:'0 0'}, { backgroundPosition: '-'+(600*i)+'px 0', ease:steppedEase, repeat:-1} );
+            gsap.fromTo(explo_donkey,.7, { backgroundPosition:'0 0'}, { backgroundPosition: '-'+(600*i)+'px 0', ease:steppedEase, repeat:-1} );
         }
         function getRandomInt (min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -115,7 +122,7 @@ var easyParallax = new EasyParallax({
         /*Function split text for screw animation*/
         function sliceText(textDiv) {
             var sentence = textDiv.html().split(""),
-                tl = new TimelineMax({repeat:10, repeatDelay:0.4, yoyo:true});
+                tl = gsap.timeline({repeat:10, repeatDelay:0.4, yoyo:true});
 
             textDiv.html("");
             $.each(sentence, function(index, val) {
@@ -151,9 +158,9 @@ var easyParallax = new EasyParallax({
             .to(textDiv2, .2, {css: {
                     opacity:0,
                     zIndex: 0,
-                    delay: 1
                 }}
             )
+            .delay(1)
             /*Donkey Top tween*/
             .to(donkey, 1, {css: {
                     left: $(window).width() + donkeyWidth * 2
@@ -161,17 +168,17 @@ var easyParallax = new EasyParallax({
             /******Animation Scene******/
             .add([
                 /*Donkey hide*/
-                TweenMax.to(donkey, .5, {css: {
+                gsap.to(donkey, .5, {css: {
                         alpha: 0
                     }}),
                 /*Block 3D show*/
-                TweenMax.to(block3d, 1, {css: {
+                gsap.to(block3d, 1, {css: {
                         rotationX           : 90,
                         transformOrigin     : "center bottom",
                         transformPerspective: 10000
                     }}),
                 /*Ground top*/
-                TweenMax.to(groundTop, 1, {css: {
+                gsap.to(groundTop, 1, {css: {
                         borderRadius: '50% 50% 0 0'
                     }})
             ])
@@ -187,13 +194,13 @@ var easyParallax = new EasyParallax({
                 }}, 1)
             /******Animation Scene******/
             .add([
-                TweenMax.to(textDiv3, .25, {css: {
+                gsap.to(textDiv3, .25, {css: {
                         autoAlpha:1
                     }}),
-                TweenMax.to(scrollArea, .25, {css: {
+                gsap.to(scrollArea, .25, {css: {
                         left: '-=225px'
                     },ease:Linear.easeNone}),
-                TweenMax.to(mario, .25, {css: {
+                gsap.to(mario, .25, {css: {
                         bottom: '237px',
                         left  : '+=200px'
                     }, onStart: function(){
@@ -210,11 +217,11 @@ var easyParallax = new EasyParallax({
             /******Animation Scene END******/
             /******Animation Scene******/
             .add([
-                TweenMax.to(mushroom, .2, {css: {
+                gsap.to(mushroom, .2, {css: {
                         alpha : 1,
                         bottom: '460px'
                     }}),
-                TweenMax.to(mario, .25, {css: {
+                gsap.to(mario, .25, {css: {
                         bottom: '200px',
                         left  : '+=50px'
                     },ease:Linear.easeNone})
@@ -222,28 +229,28 @@ var easyParallax = new EasyParallax({
             /******Animation Scene END******/
             /******Animation Scene******/
             .add([
-                TweenMax.to(mario, .25, {css: {
+                gsap.to(mario, .25, {css: {
                         bottom: '25px',
                         left  : '+=50px'
                     }, onComplete: function(){
                         mario.removeClass('jump');
                     },ease:Linear.easeNone}),
-                TweenMax.to(mushroom, .25, {css: {
+                gsap.to(mushroom, .25, {css: {
                         bottom: '25px',
                         left  : '1800px'
                     }, ease:Linear.easeNone}),
-                TweenMax.to(scrollArea, .25, {css: {
+                gsap.to(scrollArea, .25, {css: {
                         left: '-=150px'
                     }, ease:Linear.easeNone})
             ])
             .add([
-                TweenMax.to(scrollArea, .25, {css: {
+                gsap.to(scrollArea, .25, {css: {
                         left: -$(window).width() / 2
                     }, ease:Linear.easeNone}),
-                TweenMax.to(mushroom, .25, {css: {
+                gsap.to(mushroom, .25, {css: {
                         left: '-=250px'
                     }, ease:Linear.easeNone}),
-                TweenMax.to(mario, .25, {css: {
+                gsap.to(mario, .25, {css: {
                         left: '+=250px'
                     }, onComplete: function(){
                         mario.removeClass('small');
@@ -257,33 +264,33 @@ var easyParallax = new EasyParallax({
                     mushroom.removeClass('hide');
                 }, ease:Linear.easeNone})
             .add([
-                TweenMax.to(mushroom_big, 1, {css: {
+                gsap.to(mushroom_big, 1, {css: {
                         left: -$(window).width()/2
                     }, ease:Linear.easeNone}),
-                TweenMax.to(scrollArea, 1, {css: {
+                gsap.to(scrollArea, 1, {css: {
                         left: -endSlide2+850
                     },ease:Linear.easeNone}),
-                TweenMax.to(bad_mushroom, 1, {css: {
+                gsap.to(bad_mushroom, 1, {css: {
                         left: '+=665px'
                     }, ease:Linear.easeNone}),
-                TweenMax.to(mario, 1, {css: {
+                gsap.to(mario, 1, {css: {
                         left: endSlide2-850
                     }, ease:Linear.easeNone})
             ])
             .add([
-                TweenMax.to(textDiv3, .1, {css: {
+                gsap.to(textDiv3, .1, {css: {
                         autoAlpha:0
                     }}),
-                TweenMax.to(bad_mushroom, .4, {css: {
+                gsap.to(bad_mushroom, .4, {css: {
                         top: '+=200px'
                     }}),
-                TweenMax.to(enemy, .4, {css: {
+                gsap.to(enemy, .4, {css: {
                         bottom: '+=400px'
                     }, ease:Linear.easeNone}),
-                TweenMax.to(scrollArea, 1.5, {css: {
+                gsap.to(scrollArea, 1.5, {css: {
                         left: -endSlide2+100
                     }, ease:Linear.easeNone}),
-                TweenMax.to(mario, 1.5, {css: {
+                gsap.to(mario, 1.5, {css: {
                         left: endSlide2-91
                     }, ease:Linear.easeNone})
             ])
@@ -300,32 +307,32 @@ var easyParallax = new EasyParallax({
                 }})
             .to(textDiv3, .1, {css: {
                     autoAlpha: 1,
-                    delay    :1
                 }})
+            .delay(1)
             .addLabel('slide2')
             .add([
-                TweenMax.to(scrollArea, 4, {css: {
+                gsap.to(scrollArea, 4, {css: {
                         left: -endSlide2-pathWidth
                     }, ease:Linear.easeNone}),
-                TweenMax.to(marioPath, 4, {
+                gsap.to(marioPath, 4, {
                     progress:1,
                     ease:Linear.easeNone
                 })
             ])
             .add([
-                TweenMax.to(scrollArea, 4, {css: {
+                gsap.to(scrollArea, 4, {css: {
                         left: -endSlide2 - pathWidth - $(window).width()
                     }, ease:Linear.easeNone}),
-                TweenMax.to(mario, 4, {css: {
+                gsap.to(mario, 4, {css: {
                         left: endPath + $(window).width()
                     }, ease:Linear.easeNone}),
-                TweenMax.to(back, 3, {css: {
+                gsap.to(back, 3, {css: {
                         left: '-=10%'
                     }}),
-                TweenMax.to(trees, 3.5, {css: {
+                gsap.to(trees, 3.5, {css: {
                         left: '-=20%'
                     }}),
-                TweenMax.to(tubes, 4, {css: {
+                gsap.to(tubes, 4, {css: {
                         left: '-=45%'
                     }})
             ])
@@ -341,15 +348,15 @@ var easyParallax = new EasyParallax({
                     mario.addClass('rocket_mario');
                 }, ease:Linear.easeNone})
             .add([
-                TweenMax.to(mario, .1, {css: {
+                gsap.to(mario, .1, {css: {
                         left: '-=10px'
                     }, onReverseComplete: function(){
                         mario.removeClass('rocket_mario');
                     }, ease:Linear.easeNone}),
-                TweenMax.to(explo, .1, {css: {
+                gsap.to(explo, .1, {css: {
                         alpha: 1
                     }}),
-                TweenMax.to(rocket, 1, {css: {
+                gsap.to(rocket, 1, {css: {
                         alpha: 1,
                         right: -donkey_2Position
                     }})
@@ -369,8 +376,8 @@ var easyParallax = new EasyParallax({
                 }})
             .to(donkey_2, .1, {css: {
                     alpha: 0,
-                    delay: 0.5
                 }})
+            .delay(0.5)
             .to(explo_donkey, .1, {css: {
                     alpha: 0
                 }})

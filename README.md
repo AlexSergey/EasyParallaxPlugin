@@ -1,6 +1,6 @@
-EasyParallaxPlugin 4.0
+EasyParallaxPlugin 5.0
 ======================
-This is very easy and powerfull parallax-scroller plugin. It has based on Greensock animation system.
+This is very easy and powerful parallax-scroller plugin. It has based on GSAP.
 
 - [Example](http://natrube.net/easy_parallax/index.html)
 

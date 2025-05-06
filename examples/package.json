@@ -6,7 +6,7 @@
     "build": "cross-env NODE_ENV=production node build"
   },
   "dependencies": {
-    "jquery": "3.5.1",
-    "gsap": "1.20.6"
+    "jquery": "3.7.1",
+    "gsap": "3.13.0"
   }
 }

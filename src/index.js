@@ -1,12 +1,13 @@
 import utils from './core/utils';
+import { gsap } from 'gsap';
 import Draggable from 'gsap/Draggable';
-import TimelineMax from 'gsap/TimelineMax';
-import TweenLite from 'gsap/TweenLite';
 import ScrollToPlugin from 'gsap/ScrollToPlugin';
+
+gsap.registerPlugin(ScrollToPlugin);
+gsap.registerPlugin(Draggable);
 
 class EasyParallax {
     constructor(options) {
-        TimelineMax.ScrollToPlugin = ScrollToPlugin;
         this._body = document.body;
         this.options = Object.assign({
             mainContainer: '#wrap',
@@ -20,8 +21,8 @@ class EasyParallax {
 
         this._animationOnScroll = true;
 
-        this.timeline = new TimelineMax({
-            paused : true,
+        this.timeline = gsap.timeline({
+            paused: true,
             onUpdate: this._animationUpdate.bind(this)
         });
 
@@ -165,10 +166,10 @@ class EasyParallax {
         let xPos = this.timeline.progress() * this._dragLimit;
 
         if (this._ctmScrollProgress) {
-            TweenLite.set(this._ctmScrollProgress, { x: xPos });
+            gsap.set(this._ctmScrollProgress, { x: xPos });
         }
         if (this._ctmScrollBar) {
-            TweenLite.set(this._ctmScrollBar, { width: xPos + 10 });
+            gsap.set(this._ctmScrollBar, { width: xPos + 10 });
         }
     };
 
@@ -176,7 +177,7 @@ class EasyParallax {
         let tnProgress = this.timeline.progress(),
             scroll     = ((this._duration * this._main.clientHeight) * tnProgress);
 
-        TweenLite.set(window, {
+        gsap.set(window, {
             scrollTo: {
                 y: scroll
             }
@@ -218,7 +219,7 @@ class EasyParallax {
 
                 _this.timeline.progress(tnProgress);
 
-                TweenLite.set(_this._ctmScrollBar, {
+                gsap.set(_this._ctmScrollBar, {
                     width: this.x + 10
                 });
 
@@ -241,7 +242,7 @@ class EasyParallax {
 
     _updateNativeScroll = value => {
         setTimeout(() => {
-            TweenLite.set(window, {
+            gsap.set(window, {
                 scrollTo: {
                     y: value
                 }
