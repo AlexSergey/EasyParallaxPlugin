@@ -26,6 +26,6 @@
     "gsap": "3.13.0"
   },
   "devDependencies": {
-    "@rockpack/compiler": "5.0.0"
+    "@rockpack/compiler": "6.0.0"
   }
 }
